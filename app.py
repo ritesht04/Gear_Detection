@@ -1,4 +1,3 @@
-#old code
 import streamlit as st
 import requests
 import os
@@ -365,12 +364,15 @@ with st.sidebar:
 
     st.markdown("#### Detection Settings")
 
-    conf_thresh = st.slider("Confidence Threshold", 0.10, 0.90, 0.20, 0.05,
+    # ✅ FIX 1: conf default 0.20 → 0.50 (false detections band honge)
+    conf_thresh = st.slider("Confidence Threshold", 0.10, 0.90, 0.50, 0.05,
                             help="Minimum confidence to show a detection")
-    iou_thresh  = st.slider("IoU (NMS) Threshold", 0.10, 0.70, 0.30, 0.05,
+    # ✅ FIX 2: iou default 0.30 → 0.45
+    iou_thresh  = st.slider("IoU (NMS) Threshold", 0.10, 0.70, 0.45, 0.05,
                             help="Overlap threshold for box merging")
     img_size    = st.select_slider("Image Resolution", options=[640, 960, 1280], value=1280)
-    use_tta     = st.toggle("Test-Time Augmentation", value=True,
+    # ✅ FIX 3: TTA default True → False (random false detections band honge)
+    use_tta     = st.toggle("Test-Time Augmentation", value=False,
                             help="Improves accuracy, slightly slower")
 
     st.markdown('<div class="glow-divider"></div>', unsafe_allow_html=True)
